@@ -79,3 +79,11 @@ mvn test
 - El BFF no implementa lógica de negocio compleja, solo聚合 (agregación) de datos.
 - Implementa el patrón de diseño **Facade** proporcionando una interfaz simplificada.
 - Utiliza RestTemplate para comunicación HTTP con los microservicios.
+
+---
+
+## Despliegue
+
+Este servicio se despliega automáticamente como parte del repositorio **api-gateway** a la instancia **Edge (t3.small)**.
+
+Ver [Setup Guide](../fullstack-ss-api-gateway/README.md#despliegue-en-aws-ec2) para detalles completos de la infraestructura.
