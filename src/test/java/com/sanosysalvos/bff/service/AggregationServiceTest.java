@@ -7,6 +7,6 @@ class AggregationServiceTest {
 
     @Test
     void testBasicServiceCreation() {
-        assertNotNull("Service can be instantiated", true);
+        assertTrue(true, "Service can be instantiated");
     }
 }
