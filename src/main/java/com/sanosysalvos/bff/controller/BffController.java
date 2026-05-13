@@ -20,6 +20,11 @@ public class BffController {
         this.aggregationService = aggregationService;
     }
 
+    @GetMapping("/health")
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok("BFF is running");
+    }
+
     @GetMapping("/pets")
     public ResponseEntity<List<PetDto>> getAllPets() {
         return ResponseEntity.ok(aggregationService.getAllPets());
