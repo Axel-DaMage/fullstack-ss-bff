@@ -78,6 +78,10 @@ public class AggregationService {
         return matchServiceClient.updateMatchStatus(id, "REJECTED");
     }
 
+    public void deleteMatch(Long id) {
+        matchServiceClient.deleteMatch(id);
+    }
+
     public Map<String, Object> getDashboard() {
         Map<String, Object> dashboard = new HashMap<>();
 
