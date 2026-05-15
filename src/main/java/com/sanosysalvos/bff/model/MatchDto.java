@@ -4,12 +4,27 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class MatchDto {
+    @com.fasterxml.jackson.annotation.JsonProperty("id")
     private Long id;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("mascotaPerdidaId")
     private Long petLostId;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("mascotaEncontradaId")
     private Long petFoundId;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("porcentajeCoincidencia")
     private Integer matchPercentage;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("estado")
     private String status;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("creadoEn")
     private LocalDateTime createdAt;
+
+    private String petLostName;
+    private String petFoundName;
+    private Double similarity;
     private PetDto petLost;
     private PetDto petFound;
     private List<MatchCriteriaDto> criteria;
@@ -24,13 +39,27 @@ public class MatchDto {
     public void setPetFoundId(Long petFoundId) { this.petFoundId = petFoundId; }
 
     public Integer getMatchPercentage() { return matchPercentage; }
-    public void setMatchPercentage(Integer matchPercentage) { this.matchPercentage = matchPercentage; }
+    public void setMatchPercentage(Integer matchPercentage) { 
+        this.matchPercentage = matchPercentage;
+        if (matchPercentage != null) {
+            this.similarity = matchPercentage / 100.0;
+        }
+    }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public String getPetLostName() { return petLostName; }
+    public void setPetLostName(String petLostName) { this.petLostName = petLostName; }
+
+    public String getPetFoundName() { return petFoundName; }
+    public void setPetFoundName(String petFoundName) { this.petFoundName = petFoundName; }
+
+    public Double getSimilarity() { return similarity; }
+    public void setSimilarity(Double similarity) { this.similarity = similarity; }
 
     public PetDto getPetLost() { return petLost; }
     public void setPetLost(PetDto petLost) { this.petLost = petLost; }

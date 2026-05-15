@@ -58,24 +58,55 @@ public class AggregationService {
         return locationServiceClient.getLocationsByZone(zone);
     }
 
+    public LocationDto updateLocation(Long id, LocationDto location) {
+        return locationServiceClient.updateLocation(id, location);
+    }
+
     public List<MatchDto> getAllMatches() {
-        return matchServiceClient.getAllMatches();
+        List<MatchDto> matches = matchServiceClient.getAllMatches();
+        matches.forEach(this::enrichMatch);
+        return matches;
+    }
+
+    private void enrichMatch(MatchDto match) {
+        if (match.getPetLostId() != null) {
+            PetDto pet = petServiceClient.getPetById(match.getPetLostId());
+            if (pet != null) {
+                match.setPetLost(pet);
+                match.setPetLostName(pet.getName());
+            }
+        }
+        if (match.getPetFoundId() != null) {
+            PetDto pet = petServiceClient.getPetById(match.getPetFoundId());
+            if (pet != null) {
+                match.setPetFound(pet);
+                match.setPetFoundName(pet.getName());
+            }
+        }
     }
 
     public MatchDto getMatchById(Long id) {
-        return matchServiceClient.getMatchById(id);
+        MatchDto match = matchServiceClient.getMatchById(id);
+        if (match != null) enrichMatch(match);
+        return match;
     }
 
     public MatchDto createMatch(Long petLostId, Long petFoundId) {
-        return matchServiceClient.createMatch(petLostId, petFoundId);
+        MatchDto match = matchServiceClient.createMatch(petLostId, petFoundId);
+        if (match != null) enrichMatch(match);
+        return match;
     }
 
     public MatchDto confirmMatch(Long id) {
-        return matchServiceClient.updateMatchStatus(id, "CONFIRMED");
+        MatchDto match = matchServiceClient.updateMatchStatus(id, "CONFIRMED");
+        if (match != null) enrichMatch(match);
+        return match;
     }
 
     public MatchDto rejectMatch(Long id) {
-        return matchServiceClient.updateMatchStatus(id, "REJECTED");
+        MatchDto match = matchServiceClient.updateMatchStatus(id, "REJECTED");
+        if (match != null) enrichMatch(match);
+        return match;
     }
 
     public void deleteMatch(Long id) {
@@ -97,7 +128,7 @@ public class AggregationService {
 
         Map<String, Long> locationByZone = new HashMap<>();
         for (LocationDto loc : locations) {
-            String zone = loc.getZone() != null ? loc.getZone() : "Unknown";
+            String zone = determineZone(loc.getLatitude(), loc.getLongitude(), loc.getZone());
             locationByZone.put(zone, locationByZone.getOrDefault(zone, 0L) + 1);
         }
         dashboard.put("locationsByZone", locationByZone);
@@ -123,5 +154,43 @@ public class AggregationService {
 
     public void runAutomaticMatching() {
         matchServiceClient.runAutomaticMatching();
+    }
+
+    private String determineZone(Double latitude, Double longitude, String existingZone) {
+        if (existingZone != null && !existingZone.isEmpty()) {
+            return existingZone;
+        }
+        if (latitude == null || longitude == null) {
+            return "Sin asignar";
+        }
+
+        double lat = latitude;
+        double lon = longitude;
+
+        if (lat >= -33.55 && lat <= -33.35 && lon >= -70.85 && lon <= -70.50) {
+            if (lat >= -33.50 && lat <= -33.42 && lon >= -70.70 && lon <= -70.60) {
+                return "Santiago Centro";
+            } else if (lon >= -70.70 && lon <= -70.55) {
+                return "Las Condes";
+            } else if (lon >= -70.65 && lon <= -70.55 && lat >= -33.45 && lat <= -33.38) {
+                return "Providencia";
+            } else if (lat <= -33.48 && lon >= -70.75 && lon <= -70.60) {
+                return "Maipú";
+            } else if (lat >= -33.45 && lat <= -33.38 && lon >= -70.60 && lon <= -70.50) {
+                return "Ñuñoa";
+            } else if (lat >= -33.55 && lat <= -33.48 && lon >= -70.80 && lon <= -70.70) {
+                return "Puente Alto";
+            } else if (lon >= -70.58 && lon <= -70.50 && lat >= -33.42 && lat <= -33.35) {
+                return "Vitacura";
+            } else if (lat <= -33.50 && lon >= -70.70 && lon <= -70.58) {
+                return "La Florida";
+            } else if (lat >= -33.42 && lat <= -33.35 && lon >= -70.65 && lon <= -70.55) {
+                return "Santiago Centro";
+            }
+            return "Santiago";
+        } else if (lat >= -34.0 && lat <= -33.0 && lon >= -72.0 && lon <= -70.0) {
+            return "Región Metropolitana";
+        }
+        return "Sin coordenadas válidas";
     }
 }

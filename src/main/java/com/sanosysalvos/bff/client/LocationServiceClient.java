@@ -58,4 +58,9 @@ public class LocationServiceClient {
     public void deleteLocation(Long id) {
         restTemplate.delete(locationServiceUrl + "/api/locations/" + id);
     }
+
+    public LocationDto updateLocation(Long id, LocationDto location) {
+        restTemplate.put(locationServiceUrl + "/api/locations/" + id, location);
+        return getLocationById(id);
+    }
 }
