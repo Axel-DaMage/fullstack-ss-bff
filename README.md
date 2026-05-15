@@ -1,6 +1,6 @@
 # BFF - Backend For Frontend
 
-Backend For Frontend para el proyecto **Sanos y Salvos**. Actúa como聚合层 (capa de agregación) entre el frontend y los microservicios.
+Backend For Frontend para el proyecto **Sanos y Salvos**. Actúa como (capa de agregación) entre el frontend y los microservicios.
 
 ## Objetivo
 
