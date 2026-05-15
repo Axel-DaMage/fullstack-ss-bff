@@ -76,6 +76,6 @@ mvn test
 
 ## Notas
 
-- El BFF no implementa lógica de negocio compleja, solo聚合 (agregación) de datos.
+- El BFF no implementa lógica de negocio compleja, solo (agregación) de datos.
 - Implementa el patrón de diseño **Facade** proporcionando una interfaz simplificada.
 - Utiliza RestTemplate para comunicación HTTP con los microservicios.
