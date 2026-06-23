@@ -116,8 +116,8 @@ public class AggregationService {
     public Map<String, Object> getDashboard() {
         Map<String, Object> dashboard = new HashMap<>();
 
-        List<PetDto> lostPets = petServiceClient.getPetsByStatus("LOST");
-        List<PetDto> foundPets = petServiceClient.getPetsByStatus("FOUND");
+        List<PetDto> lostPets = petServiceClient.getPetsByStatus("PERDIDO");
+        List<PetDto> foundPets = petServiceClient.getPetsByStatus("ENCONTRADO");
         List<MatchDto> pendingMatches = matchServiceClient.getMatchesByStatus("PENDING");
         List<LocationDto> locations = locationServiceClient.getAllLocations();
 
