@@ -118,7 +118,7 @@ public class AggregationService {
 
         List<PetDto> lostPets = petServiceClient.getPetsByStatus("PERDIDO");
         List<PetDto> foundPets = petServiceClient.getPetsByStatus("ENCONTRADO");
-        List<MatchDto> pendingMatches = matchServiceClient.getMatchesByStatus("PENDING");
+            List<MatchDto> pendingMatches = matchServiceClient.getMatchesByStatus("PENDIENTE");
         List<LocationDto> locations = locationServiceClient.getAllLocations();
 
         dashboard.put("lostPets", lostPets.size());

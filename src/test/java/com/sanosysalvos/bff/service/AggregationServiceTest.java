@@ -220,7 +220,7 @@ class AggregationServiceTest {
 
         when(petServiceClient.getPetsByStatus("PERDIDO")).thenReturn(List.of(lostPet));
         when(petServiceClient.getPetsByStatus("ENCONTRADO")).thenReturn(List.of(foundPet));
-        when(matchServiceClient.getMatchesByStatus("PENDING")).thenReturn(List.of());
+        when(matchServiceClient.getMatchesByStatus("PENDIENTE")).thenReturn(List.of());
         when(locationServiceClient.getAllLocations()).thenReturn(List.of(loc1, loc2));
 
         Map<String, Object> dashboard = aggregationService.getDashboard();
@@ -278,7 +278,7 @@ class AggregationServiceTest {
 
         when(petServiceClient.getPetsByStatus("PERDIDO")).thenReturn(List.of());
         when(petServiceClient.getPetsByStatus("ENCONTRADO")).thenReturn(List.of());
-        when(matchServiceClient.getMatchesByStatus("PENDING")).thenReturn(List.of());
+        when(matchServiceClient.getMatchesByStatus("PENDIENTE")).thenReturn(List.of());
         when(locationServiceClient.getAllLocations()).thenReturn(List.of(locCentro, locCondes, noCoord));
 
         Map<String, Object> result = aggregationService.getDashboard();
@@ -296,7 +296,7 @@ class AggregationServiceTest {
 
         when(petServiceClient.getPetsByStatus("PERDIDO")).thenReturn(List.of());
         when(petServiceClient.getPetsByStatus("ENCONTRADO")).thenReturn(List.of());
-        when(matchServiceClient.getMatchesByStatus("PENDING")).thenReturn(List.of());
+        when(matchServiceClient.getMatchesByStatus("PENDIENTE")).thenReturn(List.of());
         when(locationServiceClient.getAllLocations()).thenReturn(List.of(loc));
 
         Map<String, Object> result = aggregationService.getDashboard();

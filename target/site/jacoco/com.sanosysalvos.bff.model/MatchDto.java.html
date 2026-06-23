@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MatchDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bff</a> &gt; <a href="index.source.html" class="el_package">com.sanosysalvos.bff.model</a> &gt; <span class="el_source">MatchDto.java</span></div><h1>MatchDto.java</h1><pre class="source lang-java linenums">package com.sanosysalvos.bff.model;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+<span class="fc" id="L6">public class MatchDto {</span>
+    @com.fasterxml.jackson.annotation.JsonProperty(&quot;id&quot;)
+    private Long id;
+
+    @com.fasterxml.jackson.annotation.JsonProperty(&quot;mascotaPerdidaId&quot;)
+    private Long petLostId;
+
+    @com.fasterxml.jackson.annotation.JsonProperty(&quot;mascotaEncontradaId&quot;)
+    private Long petFoundId;
+
+    @com.fasterxml.jackson.annotation.JsonProperty(&quot;porcentajeCoincidencia&quot;)
+    private Integer matchPercentage;
+
+    @com.fasterxml.jackson.annotation.JsonProperty(&quot;estado&quot;)
+    private String status;
+
+    @com.fasterxml.jackson.annotation.JsonProperty(&quot;creadoEn&quot;)
+    private LocalDateTime createdAt;
+
+    private String petLostName;
+    private String petFoundName;
+    private Double similarity;
+    private PetDto petLost;
+    private PetDto petFound;
+    private List&lt;MatchCriteriaDto&gt; criteria;
+
+<span class="fc" id="L32">    public Long getId() { return id; }</span>
+<span class="fc" id="L33">    public void setId(Long id) { this.id = id; }</span>
+
+<span class="fc" id="L35">    public Long getPetLostId() { return petLostId; }</span>
+<span class="fc" id="L36">    public void setPetLostId(Long petLostId) { this.petLostId = petLostId; }</span>
+
+<span class="fc" id="L38">    public Long getPetFoundId() { return petFoundId; }</span>
+<span class="fc" id="L39">    public void setPetFoundId(Long petFoundId) { this.petFoundId = petFoundId; }</span>
+
+<span class="fc" id="L41">    public Integer getMatchPercentage() { return matchPercentage; }</span>
+    public void setMatchPercentage(Integer matchPercentage) { 
+<span class="nc" id="L43">        this.matchPercentage = matchPercentage;</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (matchPercentage != null) {</span>
+<span class="nc" id="L45">            this.similarity = matchPercentage / 100.0;</span>
+        }
+<span class="nc" id="L47">    }</span>
+
+<span class="fc" id="L49">    public String getStatus() { return status; }</span>
+<span class="fc" id="L50">    public void setStatus(String status) { this.status = status; }</span>
+
+<span class="fc" id="L52">    public LocalDateTime getCreatedAt() { return createdAt; }</span>
+<span class="nc" id="L53">    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }</span>
+
+<span class="fc" id="L55">    public String getPetLostName() { return petLostName; }</span>
+<span class="fc" id="L56">    public void setPetLostName(String petLostName) { this.petLostName = petLostName; }</span>
+
+<span class="fc" id="L58">    public String getPetFoundName() { return petFoundName; }</span>
+<span class="fc" id="L59">    public void setPetFoundName(String petFoundName) { this.petFoundName = petFoundName; }</span>
+
+<span class="fc" id="L61">    public Double getSimilarity() { return similarity; }</span>
+<span class="nc" id="L62">    public void setSimilarity(Double similarity) { this.similarity = similarity; }</span>
+
+<span class="fc" id="L64">    public PetDto getPetLost() { return petLost; }</span>
+<span class="fc" id="L65">    public void setPetLost(PetDto petLost) { this.petLost = petLost; }</span>
+
+<span class="fc" id="L67">    public PetDto getPetFound() { return petFound; }</span>
+<span class="fc" id="L68">    public void setPetFound(PetDto petFound) { this.petFound = petFound; }</span>
+
+<span class="fc" id="L70">    public List&lt;MatchCriteriaDto&gt; getCriteria() { return criteria; }</span>
+<span class="nc" id="L71">    public void setCriteria(List&lt;MatchCriteriaDto&gt; criteria) { this.criteria = criteria; }</span>
+
+<span class="nc" id="L73">    public static class MatchCriteriaDto {</span>
+        private String criteriaName;
+        private Integer score;
+
+<span class="nc" id="L77">        public String getCriteriaName() { return criteriaName; }</span>
+<span class="nc" id="L78">        public void setCriteriaName(String criteriaName) { this.criteriaName = criteriaName; }</span>
+
+<span class="nc" id="L80">        public Integer getScore() { return score; }</span>
+<span class="nc" id="L81">        public void setScore(Integer score) { this.score = score; }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

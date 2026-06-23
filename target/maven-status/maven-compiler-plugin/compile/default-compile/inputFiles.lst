@@ -1,0 +1,9 @@
+/app/src/main/java/com/sanosysalvos/bff/client/MatchServiceClient.java
+/app/src/main/java/com/sanosysalvos/bff/client/PetServiceClient.java
+/app/src/main/java/com/sanosysalvos/bff/BffApplication.java
+/app/src/main/java/com/sanosysalvos/bff/client/LocationServiceClient.java
+/app/src/main/java/com/sanosysalvos/bff/service/AggregationService.java
+/app/src/main/java/com/sanosysalvos/bff/controller/BffController.java
+/app/src/main/java/com/sanosysalvos/bff/model/LocationDto.java
+/app/src/main/java/com/sanosysalvos/bff/model/MatchDto.java
+/app/src/main/java/com/sanosysalvos/bff/model/PetDto.java

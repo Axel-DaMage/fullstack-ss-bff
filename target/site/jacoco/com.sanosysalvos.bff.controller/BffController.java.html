@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BffController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bff</a> &gt; <a href="index.source.html" class="el_package">com.sanosysalvos.bff.controller</a> &gt; <span class="el_source">BffController.java</span></div><h1>BffController.java</h1><pre class="source lang-java linenums">package com.sanosysalvos.bff.controller;
+
+import com.sanosysalvos.bff.model.LocationDto;
+import com.sanosysalvos.bff.model.MatchDto;
+import com.sanosysalvos.bff.model.PetDto;
+import com.sanosysalvos.bff.service.AggregationService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping(&quot;/api&quot;)
+public class BffController {
+
+    private final AggregationService aggregationService;
+
+<span class="fc" id="L19">    public BffController(AggregationService aggregationService) {</span>
+<span class="fc" id="L20">        this.aggregationService = aggregationService;</span>
+<span class="fc" id="L21">    }</span>
+
+    @GetMapping(&quot;/health&quot;)
+    public ResponseEntity&lt;String&gt; health() {
+<span class="fc" id="L25">        return ResponseEntity.ok(&quot;BFF is running&quot;);</span>
+    }
+
+    @GetMapping(&quot;/pets&quot;)
+    public ResponseEntity&lt;List&lt;PetDto&gt;&gt; getAllPets() {
+<span class="fc" id="L30">        return ResponseEntity.ok(aggregationService.getAllPets());</span>
+    }
+
+    @GetMapping(&quot;/pets/{id}&quot;)
+    public ResponseEntity&lt;PetDto&gt; getPetById(@PathVariable Long id) {
+<span class="fc" id="L35">        PetDto pet = aggregationService.getPetById(id);</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        return pet != null ? ResponseEntity.ok(pet) : ResponseEntity.notFound().build();</span>
+    }
+
+    @PostMapping(&quot;/pets&quot;)
+    public ResponseEntity&lt;PetDto&gt; createPet(@RequestBody PetDto pet) {
+<span class="fc" id="L41">        return ResponseEntity.status(HttpStatus.CREATED).body(aggregationService.createPet(pet));</span>
+    }
+
+    @PutMapping(&quot;/pets/{id}&quot;)
+    public ResponseEntity&lt;PetDto&gt; updatePet(@PathVariable Long id, @RequestBody PetDto pet) {
+<span class="fc" id="L46">        return ResponseEntity.ok(aggregationService.updatePet(id, pet));</span>
+    }
+
+    @DeleteMapping(&quot;/pets/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deletePet(@PathVariable Long id) {
+<span class="fc" id="L51">        aggregationService.deletePet(id);</span>
+<span class="fc" id="L52">        return ResponseEntity.noContent().build();</span>
+    }
+
+    @GetMapping(&quot;/locations&quot;)
+    public ResponseEntity&lt;List&lt;LocationDto&gt;&gt; getAllLocations() {
+<span class="fc" id="L57">        return ResponseEntity.ok(aggregationService.getAllLocations());</span>
+    }
+
+    @GetMapping(&quot;/locations/{id}&quot;)
+    public ResponseEntity&lt;LocationDto&gt; getLocationById(@PathVariable Long id) {
+<span class="fc" id="L62">        LocationDto location = aggregationService.getLocationById(id);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        return location != null ? ResponseEntity.ok(location) : ResponseEntity.notFound().build();</span>
+    }
+
+    @GetMapping(&quot;/locations/zone/{zone}&quot;)
+    public ResponseEntity&lt;List&lt;LocationDto&gt;&gt; getLocationsByZone(@PathVariable String zone) {
+<span class="fc" id="L68">        return ResponseEntity.ok(aggregationService.getLocationsByZone(zone));</span>
+    }
+
+    @PutMapping(&quot;/locations/{id}&quot;)
+    public ResponseEntity&lt;LocationDto&gt; updateLocation(@PathVariable Long id, @RequestBody LocationDto location) {
+<span class="fc" id="L73">        return ResponseEntity.ok(aggregationService.updateLocation(id, location));</span>
+    }
+
+    @GetMapping(&quot;/matches&quot;)
+    public ResponseEntity&lt;List&lt;MatchDto&gt;&gt; getAllMatches() {
+<span class="fc" id="L78">        return ResponseEntity.ok(aggregationService.getAllMatches());</span>
+    }
+
+    @GetMapping(&quot;/matches/{id}&quot;)
+    public ResponseEntity&lt;MatchDto&gt; getMatchById(@PathVariable Long id) {
+<span class="fc" id="L83">        MatchDto match = aggregationService.getMatchById(id);</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        return match != null ? ResponseEntity.ok(match) : ResponseEntity.notFound().build();</span>
+    }
+
+    @PostMapping(&quot;/matches&quot;)
+    public ResponseEntity&lt;MatchDto&gt; createMatch(@RequestBody Map&lt;String, Long&gt; request) {
+<span class="fc" id="L89">        Long petLostId = request.get(&quot;petLostId&quot;);</span>
+<span class="fc" id="L90">        Long petFoundId = request.get(&quot;petFoundId&quot;);</span>
+<span class="pc bpc" id="L91" title="1 of 4 branches missed.">        if (petLostId == null || petFoundId == null) {</span>
+<span class="fc" id="L92">            return ResponseEntity.badRequest().build();</span>
+        }
+<span class="fc" id="L94">        return ResponseEntity.status(HttpStatus.CREATED).body(aggregationService.createMatch(petLostId, petFoundId));</span>
+    }
+
+    @PutMapping(&quot;/matches/{id}/confirm&quot;)
+    public ResponseEntity&lt;MatchDto&gt; confirmMatch(@PathVariable Long id) {
+<span class="fc" id="L99">        return ResponseEntity.ok(aggregationService.confirmMatch(id));</span>
+    }
+
+    @PutMapping(&quot;/matches/{id}/reject&quot;)
+    public ResponseEntity&lt;MatchDto&gt; rejectMatch(@PathVariable Long id) {
+<span class="fc" id="L104">        return ResponseEntity.ok(aggregationService.rejectMatch(id));</span>
+    }
+
+    @DeleteMapping(&quot;/matches/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteMatch(@PathVariable Long id) {
+<span class="fc" id="L109">        aggregationService.deleteMatch(id);</span>
+<span class="fc" id="L110">        return ResponseEntity.noContent().build();</span>
+    }
+
+    @GetMapping(&quot;/dashboard&quot;)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; getDashboard() {
+<span class="fc" id="L115">        return ResponseEntity.ok(aggregationService.getDashboard());</span>
+    }
+
+    @GetMapping(&quot;/pets/{id}/with-location&quot;)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; getPetWithLocation(@PathVariable Long id) {
+<span class="fc" id="L120">        return ResponseEntity.ok(aggregationService.getPetWithLocation(id));</span>
+    }
+
+    @PostMapping(&quot;/matching/run-automatic&quot;)
+    public ResponseEntity&lt;String&gt; runAutomaticMatching() {
+<span class="fc" id="L125">        aggregationService.runAutomaticMatching();</span>
+<span class="fc" id="L126">        return ResponseEntity.ok(&quot;Automatic matching triggered&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

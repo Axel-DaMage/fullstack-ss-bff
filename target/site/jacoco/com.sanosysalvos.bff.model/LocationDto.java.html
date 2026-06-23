@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bff</a> &gt; <a href="index.source.html" class="el_package">com.sanosysalvos.bff.model</a> &gt; <span class="el_source">LocationDto.java</span></div><h1>LocationDto.java</h1><pre class="source lang-java linenums">package com.sanosysalvos.bff.model;
+
+import java.time.LocalDateTime;
+
+<span class="fc" id="L5">public class LocationDto {</span>
+    private Long id;
+    private Long petId;
+    private Double latitude;
+    private Double longitude;
+    private String zone;
+    private String address;
+    private LocalDateTime reportedAt;
+
+<span class="fc" id="L14">    public Long getId() { return id; }</span>
+<span class="fc" id="L15">    public void setId(Long id) { this.id = id; }</span>
+
+<span class="fc" id="L17">    public Long getPetId() { return petId; }</span>
+<span class="fc" id="L18">    public void setPetId(Long petId) { this.petId = petId; }</span>
+
+<span class="fc" id="L20">    public Double getLatitude() { return latitude; }</span>
+<span class="fc" id="L21">    public void setLatitude(Double latitude) { this.latitude = latitude; }</span>
+
+<span class="fc" id="L23">    public Double getLongitude() { return longitude; }</span>
+<span class="fc" id="L24">    public void setLongitude(Double longitude) { this.longitude = longitude; }</span>
+
+<span class="fc" id="L26">    public String getZone() { return zone; }</span>
+<span class="fc" id="L27">    public void setZone(String zone) { this.zone = zone; }</span>
+
+<span class="fc" id="L29">    public String getAddress() { return address; }</span>
+<span class="nc" id="L30">    public void setAddress(String address) { this.address = address; }</span>
+
+<span class="fc" id="L32">    public LocalDateTime getReportedAt() { return reportedAt; }</span>
+<span class="nc" id="L33">    public void setReportedAt(LocalDateTime reportedAt) { this.reportedAt = reportedAt; }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

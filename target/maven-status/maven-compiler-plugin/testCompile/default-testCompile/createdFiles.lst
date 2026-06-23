@@ -1,0 +1,5 @@
+com/sanosysalvos/bff/client/PetServiceClientTest.class
+com/sanosysalvos/bff/client/MatchServiceClientTest.class
+com/sanosysalvos/bff/client/LocationServiceClientTest.class
+com/sanosysalvos/bff/controller/BffControllerTest.class
+com/sanosysalvos/bff/service/AggregationServiceTest.class
