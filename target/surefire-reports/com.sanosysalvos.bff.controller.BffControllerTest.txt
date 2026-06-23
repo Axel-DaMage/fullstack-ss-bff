@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.sanosysalvos.bff.controller.BffControllerTest
--------------------------------------------------------------------------------
-Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.563 s - in com.sanosysalvos.bff.controller.BffControllerTest
