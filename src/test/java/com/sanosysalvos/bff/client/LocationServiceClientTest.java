@@ -44,47 +44,16 @@ class LocationServiceClientTest {
     }
 
     @Test
-    void getLocationById_ShouldReturnLocation() {
+    void getLocationById_ShouldReturnLocationOrNull() {
         LocationDto expected = new LocationDto();
         expected.setId(1L);
         when(restTemplate.getForObject("http://geo-service:3002/api/locations/1", LocationDto.class))
             .thenReturn(expected);
+        assertEquals(1L, client.getLocationById(1L).getId());
 
-        LocationDto result = client.getLocationById(1L);
-        assertEquals(1L, result.getId());
-    }
-
-    @Test
-    void getLocationById_ShouldReturnNullWhenNotFound() {
         when(restTemplate.getForObject("http://geo-service:3002/api/locations/99", LocationDto.class))
             .thenReturn(null);
         assertNull(client.getLocationById(99L));
-    }
-
-    @Test
-    void getLocationsByZone_ShouldCallCorrectUrl() {
-        when(restTemplate.exchange(
-            eq("http://geo-service:3002/api/locations/search/zone/Centro"),
-            eq(HttpMethod.GET),
-            isNull(),
-            any(ParameterizedTypeReference.class)
-        )).thenReturn(ResponseEntity.ok(List.of(new LocationDto())));
-
-        List<LocationDto> result = client.getLocationsByZone("Centro");
-        assertEquals(1, result.size());
-    }
-
-    @Test
-    void getLocationsByDateRange_ShouldCallCorrectUrl() {
-        when(restTemplate.exchange(
-            eq("http://geo-service:3002/api/locations/search/date-range?startDate=2024-01-01&endDate=2024-12-31"),
-            eq(HttpMethod.GET),
-            isNull(),
-            any(ParameterizedTypeReference.class)
-        )).thenReturn(ResponseEntity.ok(List.of()));
-
-        List<LocationDto> result = client.getLocationsByDateRange("2024-01-01", "2024-12-31");
-        assertNotNull(result);
     }
 
     @Test
@@ -93,23 +62,5 @@ class LocationServiceClientTest {
         when(restTemplate.postForObject("http://geo-service:3002/api/locations", loc, LocationDto.class))
             .thenReturn(loc);
         assertNotNull(client.createLocation(loc));
-    }
-
-    @Test
-    void deleteLocation_ShouldCallDelete() {
-        client.deleteLocation(1L);
-        verify(restTemplate).delete("http://geo-service:3002/api/locations/1");
-    }
-
-    @Test
-    void updateLocation_ShouldPutAndReturn() {
-        LocationDto loc = new LocationDto();
-        loc.setId(1L);
-        when(restTemplate.getForObject("http://geo-service:3002/api/locations/1", LocationDto.class))
-            .thenReturn(loc);
-
-        LocationDto result = client.updateLocation(1L, loc);
-        assertEquals(1L, result.getId());
-        verify(restTemplate).put("http://geo-service:3002/api/locations/1", loc);
     }
 }

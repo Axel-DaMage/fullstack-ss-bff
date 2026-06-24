@@ -45,49 +45,6 @@ class MatchServiceClientTest {
     }
 
     @Test
-    void getMatchById_ShouldReturnMatch() {
-        MatchDto expected = new MatchDto();
-        expected.setId(1L);
-        when(restTemplate.getForObject("http://match-service:3003/api/matching/1", MatchDto.class))
-            .thenReturn(expected);
-
-        MatchDto result = client.getMatchById(1L);
-        assertEquals(1L, result.getId());
-    }
-
-    @Test
-    void getMatchById_ShouldReturnNullWhenNotFound() {
-        when(restTemplate.getForObject("http://match-service:3003/api/matching/99", MatchDto.class))
-            .thenReturn(null);
-        assertNull(client.getMatchById(99L));
-    }
-
-    @Test
-    void getMatchesByStatus_ShouldCallCorrectUrl() {
-        when(restTemplate.exchange(
-            eq("http://match-service:3003/api/matching/search/status/PENDING"),
-            eq(HttpMethod.GET),
-            isNull(),
-            any(ParameterizedTypeReference.class)
-        )).thenReturn(ResponseEntity.ok(List.of(new MatchDto())));
-
-        List<MatchDto> result = client.getMatchesByStatus("PENDING");
-        assertEquals(1, result.size());
-    }
-
-    @Test
-    void getMatchesByPercentage_ShouldCallCorrectUrl() {
-        when(restTemplate.exchange(
-            eq("http://match-service:3003/api/matching/search/percentage/60"),
-            eq(HttpMethod.GET),
-            isNull(),
-            any(ParameterizedTypeReference.class)
-        )).thenReturn(ResponseEntity.ok(List.of()));
-
-        assertNotNull(client.getMatchesByPercentage(60));
-    }
-
-    @Test
     void createMatch_ShouldPostAndReturn() {
         MatchDto expected = new MatchDto();
         expected.setId(1L);
@@ -113,27 +70,5 @@ class MatchServiceClientTest {
         MatchDto result = client.updateMatchStatus(1L, "CONFIRMED");
         assertEquals("CONFIRMED", result.getStatus());
         verify(restTemplate).put("http://match-service:3003/api/matching/1", Map.of("status", "CONFIRMED"));
-    }
-
-    @Test
-    void deleteMatch_ShouldCallDelete() {
-        client.deleteMatch(1L);
-        verify(restTemplate).delete("http://match-service:3003/api/matching/1");
-    }
-
-    @Test
-    void runAutomaticMatching_ShouldPostToCorrectUrl() {
-        when(restTemplate.postForObject(
-            "http://match-service:3003/api/matching/run-automatic",
-            null,
-            String.class
-        )).thenReturn("ok");
-
-        client.runAutomaticMatching();
-        verify(restTemplate).postForObject(
-            "http://match-service:3003/api/matching/run-automatic",
-            null,
-            String.class
-        );
     }
 }

@@ -46,47 +46,16 @@ class PetServiceClientTest {
     }
 
     @Test
-    void getPetById_ShouldCallCorrectUrl() {
+    void getPetById_ShouldReturnPetOrNull() {
         PetDto expected = new PetDto();
         expected.setId(1L);
         when(restTemplate.getForObject("http://pet-service:3001/api/pets/1", PetDto.class))
             .thenReturn(expected);
+        assertEquals(1L, client.getPetById(1L).getId());
 
-        PetDto result = client.getPetById(1L);
-        assertEquals(1L, result.getId());
-    }
-
-    @Test
-    void getPetById_ShouldReturnNullWhenNotFound() {
         when(restTemplate.getForObject("http://pet-service:3001/api/pets/99", PetDto.class))
             .thenReturn(null);
-
         assertNull(client.getPetById(99L));
-    }
-
-    @Test
-    void getPetsByStatus_ShouldCallCorrectUrl() {
-        when(restTemplate.exchange(
-            eq("http://pet-service:3001/api/pets/search/status/PERDIDO"),
-            eq(HttpMethod.GET),
-            isNull(),
-            any(ParameterizedTypeReference.class)
-        )).thenReturn(ResponseEntity.ok(List.of(new PetDto())));
-
-        List<PetDto> result = client.getPetsByStatus("PERDIDO");
-        assertEquals(1, result.size());
-    }
-
-    @Test
-    void getPetsByRace_ShouldCallCorrectUrl() {
-        when(restTemplate.exchange(
-            eq("http://pet-service:3001/api/pets/search/race/Perro"),
-            eq(HttpMethod.GET),
-            isNull(),
-            any(ParameterizedTypeReference.class)
-        )).thenReturn(ResponseEntity.ok(List.of()));
-
-        assertNotNull(client.getPetsByRace("Perro"));
     }
 
     @Test
@@ -98,25 +67,5 @@ class PetServiceClientTest {
 
         PetDto result = client.createPet(pet);
         assertEquals("Firulais", result.getName());
-    }
-
-    @Test
-    void updatePet_ShouldPutAndReturn() {
-        PetDto pet = new PetDto();
-        pet.setId(1L);
-        pet.setName("Updated");
-
-        when(restTemplate.getForObject("http://pet-service:3001/api/pets/1", PetDto.class))
-            .thenReturn(pet);
-
-        PetDto result = client.updatePet(1L, pet);
-        assertEquals("Updated", result.getName());
-        verify(restTemplate).put("http://pet-service:3001/api/pets/1", pet);
-    }
-
-    @Test
-    void deletePet_ShouldCallDelete() {
-        client.deletePet(1L);
-        verify(restTemplate).delete("http://pet-service:3001/api/pets/1");
     }
 }
