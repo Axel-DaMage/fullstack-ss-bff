@@ -26,14 +26,14 @@ class BffControllerTest {
     private AggregationService aggregationService;
 
     @Test
-    void health_ShouldReturnOk() throws Exception {
+    void healthRetornaOk() throws Exception {
         mockMvc.perform(get("/api/health"))
             .andExpect(status().isOk())
             .andExpect(content().string("BFF is running"));
     }
 
     @Test
-    void getPetById_ShouldReturnPet() throws Exception {
+    void obtenerMascotaRetorna200() throws Exception {
         PetDto pet = new PetDto();
         pet.setId(1L);
         pet.setName("Firulais");
@@ -46,14 +46,14 @@ class BffControllerTest {
     }
 
     @Test
-    void getPetById_ShouldReturn404WhenNotFound() throws Exception {
+    void obtenerMascotaRetorna404() throws Exception {
         when(aggregationService.getPetById(99L)).thenReturn(null);
         mockMvc.perform(get("/api/pets/99"))
             .andExpect(status().isNotFound());
     }
 
     @Test
-    void getDashboard_ShouldReturnStats() throws Exception {
+    void dashboardRetornaEstadisticas() throws Exception {
         Map<String, Object> stats = Map.of("lostPets", 5, "foundPets", 3);
         when(aggregationService.getDashboard()).thenReturn(stats);
 
@@ -64,7 +64,7 @@ class BffControllerTest {
     }
 
     @Test
-    void createMatch_ShouldReturn400WhenMissingIds() throws Exception {
+    void crearMatchRetorna400() throws Exception {
         mockMvc.perform(post("/api/matches")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"))

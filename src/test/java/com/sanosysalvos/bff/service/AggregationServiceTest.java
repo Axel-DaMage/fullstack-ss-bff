@@ -37,7 +37,7 @@ class AggregationServiceTest {
     }
 
     @Test
-    void getAllMatches_ShouldEnrichWithPetDetails() {
+    void enriqueceMatchesConNombresDeMascotas() {
         PetDto lostPet = new PetDto();
         lostPet.setId(1L);
         lostPet.setName("Perdido");
@@ -61,14 +61,14 @@ class AggregationServiceTest {
     }
 
     @Test
-    void getMatchById_ShouldNotCallPetServiceWhenMatchNotFound() {
+    void noBuscaMascotaSiMatchNoExiste() {
         when(matchServiceClient.getMatchById(99L)).thenReturn(null);
         assertNull(aggregationService.getMatchById(99L));
         verify(petServiceClient, never()).getPetById(any());
     }
 
     @Test
-    void getDashboard_ShouldReturnAggregatedStats() {
+    void dashboardRetornaEstadisticasAgregadas() {
         PetDto lostPet = new PetDto();
         lostPet.setStatus("PERDIDO");
         PetDto foundPet = new PetDto();
@@ -95,7 +95,7 @@ class AggregationServiceTest {
     }
 
     @Test
-    void getPetWithLocation_ShouldReturnPetAndLocation() {
+    void obtieneMascotaConUbicacion() {
         PetDto pet = new PetDto();
         pet.setId(1L);
         LocationDto loc = new LocationDto();

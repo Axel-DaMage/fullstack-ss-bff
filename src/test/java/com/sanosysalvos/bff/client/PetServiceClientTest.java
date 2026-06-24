@@ -32,7 +32,7 @@ class PetServiceClientTest {
     }
 
     @Test
-    void getAllPets_ShouldCallCorrectUrl() {
+    void obtenerMascotasLlamaUrlCorrecta() {
         when(restTemplate.exchange(
             eq("http://pet-service:3001/api/pets"),
             eq(HttpMethod.GET),
@@ -46,7 +46,7 @@ class PetServiceClientTest {
     }
 
     @Test
-    void getPetById_ShouldReturnPetOrNull() {
+    void obtenerMascotaRetornaMascotaONulo() {
         PetDto expected = new PetDto();
         expected.setId(1L);
         when(restTemplate.getForObject("http://pet-service:3001/api/pets/1", PetDto.class))
@@ -59,7 +59,7 @@ class PetServiceClientTest {
     }
 
     @Test
-    void createPet_ShouldPostAndReturn() {
+    void crearMascotaPosteaYRetorna() {
         PetDto pet = new PetDto();
         pet.setName("Firulais");
         when(restTemplate.postForObject("http://pet-service:3001/api/pets", pet, PetDto.class))

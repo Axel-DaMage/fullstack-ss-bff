@@ -32,7 +32,7 @@ class MatchServiceClientTest {
     }
 
     @Test
-    void getAllMatches_ShouldCallCorrectUrl() {
+    void obtenerMatchesLlamaUrlCorrecta() {
         when(restTemplate.exchange(
             eq("http://match-service:3003/api/matching"),
             eq(HttpMethod.GET),
@@ -45,7 +45,7 @@ class MatchServiceClientTest {
     }
 
     @Test
-    void createMatch_ShouldPostAndReturn() {
+    void crearMatchPosteaYRetorna() {
         MatchDto expected = new MatchDto();
         expected.setId(1L);
         when(restTemplate.postForObject(
@@ -59,7 +59,7 @@ class MatchServiceClientTest {
     }
 
     @Test
-    void updateMatchStatus_ShouldPutAndReturn() {
+    void actualizarMatchHacePutYRetorna() {
         MatchDto match = new MatchDto();
         match.setId(1L);
         match.setStatus("CONFIRMED");
