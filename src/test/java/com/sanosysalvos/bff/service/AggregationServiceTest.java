@@ -73,25 +73,6 @@ class AggregationServiceTest {
         lostPet.setStatus("PERDIDO");
         PetDto foundPet = new PetDto();
         foundPet.setStatus("ENCONTRADO");
-        LocationDto loc = new LocationDto();
-        loc.setLatitude(-33.45);
-        loc.setLongitude(-70.65);
-
-        when(petServiceClient.getPetsByStatus("PERDIDO")).thenReturn(List.of(lostPet));
-        when(petServiceClient.getPetsByStatus("ENCONTRADO")).thenReturn(List.of(foundPet));
-        when(matchServiceClient.getMatchesByStatus("PENDIENTE")).thenReturn(List.of());
-        when(locationServiceClient.getAllLocations()).thenReturn(List.of(loc));
-
-        Map<String, Object> dashboard = aggregationService.getDashboard();
-        assertEquals(1, dashboard.get("lostPets"));
-        assertEquals(1, dashboard.get("foundPets"));
-        assertEquals(0, dashboard.get("pendingMatches"));
-        assertEquals(1, dashboard.get("totalLocations"));
-        assertTrue(dashboard.containsKey("locationsByZone"));
-    }
-
-    @Test
-    void getDashboard_ShouldGroupLocationsByZone() {
         LocationDto locCentro = new LocationDto();
         locCentro.setLatitude(-33.45);
         locCentro.setLongitude(-70.65);
@@ -99,13 +80,17 @@ class AggregationServiceTest {
         locCondes.setLatitude(-33.43);
         locCondes.setLongitude(-70.55);
 
-        when(petServiceClient.getPetsByStatus("PERDIDO")).thenReturn(List.of());
-        when(petServiceClient.getPetsByStatus("ENCONTRADO")).thenReturn(List.of());
+        when(petServiceClient.getPetsByStatus("PERDIDO")).thenReturn(List.of(lostPet));
+        when(petServiceClient.getPetsByStatus("ENCONTRADO")).thenReturn(List.of(foundPet));
         when(matchServiceClient.getMatchesByStatus("PENDIENTE")).thenReturn(List.of());
         when(locationServiceClient.getAllLocations()).thenReturn(List.of(locCentro, locCondes));
 
-        Map<String, Object> result = aggregationService.getDashboard();
-        Map<String, Long> zones = (Map<String, Long>) result.get("locationsByZone");
+        Map<String, Object> dashboard = aggregationService.getDashboard();
+        assertEquals(1, dashboard.get("lostPets"));
+        assertEquals(1, dashboard.get("foundPets"));
+        assertEquals(0, dashboard.get("pendingMatches"));
+        assertEquals(2, dashboard.get("totalLocations"));
+        Map<String, Long> zones = (Map<String, Long>) dashboard.get("locationsByZone");
         assertEquals(2, zones.size());
     }
 
