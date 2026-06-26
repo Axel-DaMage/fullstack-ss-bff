@@ -195,7 +195,7 @@ class BffControllerTest {
     void obtenerPetConUbicacion_DeberiaRetornar200() throws Exception {
         when(aggregationService.getPetWithLocation(1L)).thenReturn(Map.of("pet", new PetDto()));
 
-        mockMvc.perform(get("/api/pets/1/location"))
+        mockMvc.perform(get("/api/pets/1/with-location"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.pet").exists());
     }
