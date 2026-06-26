@@ -32,43 +32,104 @@ class MatchServiceClientTest {
     }
 
     @Test
-    void obtenerMatchesLlamaUrlCorrecta() {
+    void obtenerTodosLosMatches_DeberiaUsarExchange() {
         when(restTemplate.exchange(
             eq("http://match-service:3003/api/matching"),
             eq(HttpMethod.GET),
             isNull(),
             any(ParameterizedTypeReference.class)
-        )).thenReturn(ResponseEntity.ok(List.of()));
+        )).thenReturn(ResponseEntity.ok(List.of(new MatchDto())));
 
-        List<MatchDto> result = client.getAllMatches();
-        assertNotNull(result);
+        assertEquals(1, client.getAllMatches().size());
     }
 
     @Test
-    void crearMatchPosteaYRetorna() {
-        MatchDto expected = new MatchDto();
-        expected.setId(1L);
+    void obtenerMatchPorId_DeberiaUsarGetForObject() {
+        MatchDto esperado = new MatchDto();
+        esperado.setId(1L);
+        when(restTemplate.getForObject("http://match-service:3003/api/matching/1", MatchDto.class))
+            .thenReturn(esperado);
+
+        assertEquals(1L, client.getMatchById(1L).getId());
+    }
+
+    @Test
+    void obtenerMatchPorId_CuandoNoExiste_DeberiaRetornarNulo() {
+        when(restTemplate.getForObject("http://match-service:3003/api/matching/99", MatchDto.class))
+            .thenReturn(null);
+
+        assertNull(client.getMatchById(99L));
+    }
+
+    @Test
+    void obtenerMatchesPorStatus_DeberiaUsarExchange() {
+        when(restTemplate.exchange(
+            eq("http://match-service:3003/api/matching/search/status/PENDIENTE"),
+            eq(HttpMethod.GET),
+            isNull(),
+            any(ParameterizedTypeReference.class)
+        )).thenReturn(ResponseEntity.ok(List.of()));
+
+        assertTrue(client.getMatchesByStatus("PENDIENTE").isEmpty());
+    }
+
+    @Test
+    void obtenerMatchesPorPorcentaje_DeberiaUsarExchange() {
+        when(restTemplate.exchange(
+            eq("http://match-service:3003/api/matching/search/percentage/80"),
+            eq(HttpMethod.GET),
+            isNull(),
+            any(ParameterizedTypeReference.class)
+        )).thenReturn(ResponseEntity.ok(List.of()));
+
+        assertTrue(client.getMatchesByPercentage(80).isEmpty());
+    }
+
+    @Test
+    void crearMatch_DeberiaUsarPostForObject() {
+        MatchDto esperado = new MatchDto();
+        esperado.setId(1L);
         when(restTemplate.postForObject(
             eq("http://match-service:3003/api/matching"),
             eq(Map.of("petLostId", 1L, "petFoundId", 2L)),
             eq(MatchDto.class)
-        )).thenReturn(expected);
+        )).thenReturn(esperado);
 
-        MatchDto result = client.createMatch(1L, 2L);
-        assertEquals(1L, result.getId());
+        MatchDto resultado = client.createMatch(1L, 2L);
+        assertEquals(1L, resultado.getId());
     }
 
     @Test
-    void actualizarMatchHacePutYRetorna() {
-        MatchDto match = new MatchDto();
-        match.setId(1L);
-        match.setStatus("CONFIRMED");
-
+    void actualizarMatchStatus_DeberiaUsarPutYGet() {
+        MatchDto actualizado = new MatchDto();
+        actualizado.setStatus("CONFIRMED");
         when(restTemplate.getForObject("http://match-service:3003/api/matching/1", MatchDto.class))
-            .thenReturn(match);
+            .thenReturn(actualizado);
 
-        MatchDto result = client.updateMatchStatus(1L, "CONFIRMED");
-        assertEquals("CONFIRMED", result.getStatus());
+        MatchDto resultado = client.updateMatchStatus(1L, "CONFIRMED");
+        assertEquals("CONFIRMED", resultado.getStatus());
         verify(restTemplate).put("http://match-service:3003/api/matching/1", Map.of("status", "CONFIRMED"));
+    }
+
+    @Test
+    void eliminarMatch_DeberiaUsarDelete() {
+        client.deleteMatch(1L);
+        verify(restTemplate).delete("http://match-service:3003/api/matching/1");
+    }
+
+    @Test
+    void ejecutarMatchingAutomatico_DeberiaUsarPostForObject() {
+        when(restTemplate.postForObject(
+            eq("http://match-service:3003/api/matching/run-automatic"),
+            isNull(),
+            eq(String.class)
+        )).thenReturn("OK");
+
+        client.runAutomaticMatching();
+        verify(restTemplate).postForObject(
+            "http://match-service:3003/api/matching/run-automatic",
+            null,
+            String.class
+        );
     }
 }
