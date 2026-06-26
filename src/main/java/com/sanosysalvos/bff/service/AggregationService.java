@@ -170,6 +170,8 @@ public class AggregationService {
         if (lat >= -33.55 && lat <= -33.35 && lon >= -70.85 && lon <= -70.50) {
             if (lat >= -33.50 && lat <= -33.42 && lon >= -70.70 && lon <= -70.60) {
                 return "Santiago Centro";
+            } else if (lat >= -33.495 && lat <= -33.475 && lon >= -70.67 && lon <= -70.63) {
+                return "San Miguel";
             } else if (lon >= -70.70 && lon <= -70.55) {
                 return "Las Condes";
             } else if (lon >= -70.65 && lon <= -70.55 && lat >= -33.45 && lat <= -33.38) {
