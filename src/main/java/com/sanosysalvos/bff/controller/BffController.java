@@ -68,11 +68,6 @@ public class BffController {
         return ResponseEntity.ok(aggregationService.getLocationsByZone(zone));
     }
 
-    @PutMapping("/locations/{id}")
-    public ResponseEntity<LocationDto> updateLocation(@PathVariable Long id, @RequestBody LocationDto location) {
-        return ResponseEntity.ok(aggregationService.updateLocation(id, location));
-    }
-
     @GetMapping("/matches")
     public ResponseEntity<List<MatchDto>> getAllMatches() {
         return ResponseEntity.ok(aggregationService.getAllMatches());
