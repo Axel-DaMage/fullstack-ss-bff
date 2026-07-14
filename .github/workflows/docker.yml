@@ -24,4 +24,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: axeldamage/fullstack-ss-bff:latest
+          tags: d4mag3/fullstack-ss-bff:latest
